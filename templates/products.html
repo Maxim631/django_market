@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+<h1>{% block title%} Товары {% endblock %}</h1>
+{% block content %}
+
+    <h1 class="display-1">Наши товары</h1>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Наименование</th>
+          <th scope="col">Количество</th>
+          <th scope="col">Стоимость</th>
+        </tr>
+      </thead>
+        {% for product in products %}
+          <tbody>
+            <tr>
+
+              <th scope="row">{{ product.id }}</th>
+              <td><a href="{% url 'market:product' product.id %}">{{ product.name }}</a></td>
+              <td>{{ product.count }}</td>
+              <td>{{ product.cost }}</td>
+
+
+            </tr>
+
+          </tbody>
+         {% endfor %}
+        </table>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <div class="form-group">
+                        <a href="{%   url "market:new-order" %}" class="btn btn-primary">Купить</a>
+                    </div>
+                  </div>
+
+{% endblock %}

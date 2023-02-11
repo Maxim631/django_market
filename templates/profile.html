@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+<h1>{% block title%} Профиль {% endblock %}</h1>
+
+{% block content %}
+
+    <h1 class="display-1">Профиль</h1><h1 style="text-align: right ">Количество поинтов: {{ request.user.points }}</h1>
+    <div class= >
+        <h1>Ваши заказы</h1>
+        <h1>{{ redirect.user.username }}</h1>
+
+         <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">№</th>
+              <th scope="col">Наименование</th>
+              <th scope="col">Количество</th>
+              <th scope="col">Дата заказа</th>
+              <th scope="col">Стоимость заказа</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+
+         {% for order in orders %}
+
+          <tbody>
+          {% if request.user.username == order.user.username %}
+            <tr>
+
+              <th scope="row">{{ order.id }}</th>
+              <td>{{order.products.name}}</td>
+              <td>{{ order.count }}</td>
+              <td>{{ order.order_datetime }}</td>
+              <td>{{ order.cost }}</td>
+              <td>
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                      <a href="{% url 'market:edit-order' order.id %}" class="btn btn-primary me-md-2">Изменить</a>
+                  </div>
+              </td>
+              <td>
+                  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                      <button type="button" class="btn btn-danger me-md-2"
+                          data-toggle="modal" data-target="#deleteModal" style="padding: 6px; border: none">
+                            Удалить
+                      </button>
+                  </div>
+              </td>
+                  <div class="modal fade" id="deleteModal" tabindex="1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                 <div class="modal-header">
+                                     <h5 class="modal-title" id="exampleModalLabel">Внимание!</h5>
+                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                         <span aria-hidden="true">×</span>
+                                     </button>
+                                 </div>
+                                <div class="modal-body">
+                                    Вы уверены, что хотите удалить заказ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                                    <form method="post" action="{% url "market:delete_order" order.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">Удалить</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                  </div>
+              </td>
+            </tr>
+          {% endif %}
+          </tbody>
+         {% endfor %}
+        </table>
+    </div>
+
+{% endblock %}

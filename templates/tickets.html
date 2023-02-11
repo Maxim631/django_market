@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+<h1>{% block title%} Тикеты {% endblock %}</h1>
+{% block content %}
+    <h1 class="display-1">Тикеты</h1>
+    <h1>Введить UUID чтобы получить поинты...</h1>
+
+        <div class="form-group">
+        <form method="post">
+                {% csrf_token %}
+        <p>
+        <div class="form-group">
+
+                <input id="uuid" type="text" name="uuid" aria-describedby="valid-uuid"
+                       placeholder="UUID..." class="form-control {% if tickets.available == 0 %}is-valid{% endif %}"
+                  required value="{{ tickets.uuid }}">
+
+                {% if tickets.available == 0 %}
+                    <div id="valid-uuid" class="valid-feedback">
+                      Укажите заголовок!
+                    </div>
+                {% endif %}
+        </div>
+            </p>
+            <div>
+                <input class="btn btn-primary me-md-2" type="submit" value="Добавить" >
+            </div>
+        </div>
+
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+<h1>{% block title%} Изменение заказа {% endblock %}</h1>
+{% block content %}
+         <form method="post">
+            {% csrf_token %}
+
+
+            <h1 class="display-1">Изменение заказа</h1>
+                <div class="container col-xl-1 col-xxl-4 px-1 py-5">
+                <p>
+                   <p>
+                        <select name="products" class="form-select" aria-label="Выберите предмет...">
+                          <option selected>Выберите продукт....</option>
+                            {% for prod in products %}
+                                <option value="{{prod.id}}">{{prod.name}}</option>
+                             {% endfor %}
+                        </select>
+                </p>
+                </p>
+                <p>
+                    <div class="form-group">
+                        <input id="count" type="number" name="count" required aria-describedby="invalid-title"
+                            placeholder="Количество..." class="form-control "
+                                value="{{ order.count }}">
+                    </div>
+                </p>
+
+
+                <input class="btn btn-primary me-md-2" type="submit" value="Изменить" >
+                </div>
+         </form>
+{% endblock content %}
